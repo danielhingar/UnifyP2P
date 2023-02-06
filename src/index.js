@@ -21,19 +21,11 @@ async function getBeneficios() {
     await pagePeerBerry.getByRole('button', { name: 'Iniciar sesión' }).click();
     let benefecioPeerBerry = await pagePeerBerry.innerText("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-12.MuiGrid-grid-md-8 > div > div:nth-child(1) > div > div > div:nth-child(3) > div:nth-child(3) > div:nth-child(2) >span");
     let totalPeerBerry = await pagePeerBerry.innerText("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-12.MuiGrid-grid-md-8 > div > div:nth-child(1) > div > div > div:nth-child(1) > div > div:nth-child(1) > div");
-    let peerBerry = new Plataforma(totalPeerBerry, benefecioPeerBerry, fecha, '0.0');
+    let dineroInvertidoPeerBerry = await pagePeerBerry.innerText("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-12.MuiGrid-grid-md-8 > div > div:nth-child(1) > div > div > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > span");
+    let disponibleInvertirPeerBerry = await pagePeerBerry.innerHTML("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-12.MuiGrid-grid-md-8 > div > div:nth-child(1) > div > div > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > span");
+    let peerBerry = new Plataforma(totalPeerBerry, benefecioPeerBerry, fecha, '0.0',dineroInvertidoPeerBerry,disponibleInvertirPeerBerry);
     beneficios.push(peerBerry);
     insertarRegistros("Peerberry",peerBerry)
-
-    // const pageMintos = await browser.newPage();
-    // await pageMintos.goto('https://www.mintos.com/es/general/');
-    // await pageMintos.fill('#login-username','danielhingar@gmail.com');
-    // await pageMintos.fill('#login-password','PEople3012');
-    // await pageMintos.getByRole('button', { name:'Entrar'}).click();
-    // let totalMintos = await pageMintos.innerText('div.m-u-color-n2.m-u-padding-bottom-7.m-u-padding-top-6 > div > div.m-o-grid > div:nth-child(1) > div > h2');
-    // let beneficioMintos = await pageMintos.innerText('div.m-u-color-n2.m-u-padding-bottom-7.m-u-padding-top-6 > div > div.m-o-grid > div:nth-child(2) > div > div:nth-child(5) > span.m-u-nowrap');
-    // let mintos = new Plataforma('Mintos', totalMintos, beneficioMintos, fecha.toLocaleDateString(), '0.0');
-    // beneficios.push(mintos);
 
     const pageRobocash = await browser.newPage();
     await pageRobocash.goto('https://robo.cash/es/cabinet/summary');
@@ -43,7 +35,9 @@ async function getBeneficios() {
     let beneficioRobocash = await pageRobocash.innerText("div.col-sm-12.col-md-6.col-lg-4.earned_interests > div > div.white-block-body > div.left.value > span > span");
     let totalRobocash = await pageRobocash.innerText("div > div.col-lg-12 > div > div:nth-child(1) > div > div.white-block-body > div.left.value.digit > span > span");
     let bonusRobocash = await pageRobocash.innerText("div > div.col-lg-12 > div > div.col-sm-12.col-md-6.col-lg-4.earned_bonuses > div > div.white-block-body > div.left.value > span > span");
-    let robocash = new Plataforma(totalRobocash, beneficioRobocash, fecha, bonusRobocash);
+    let dineroInvertidoRobocash = await pageRobocash.innerHTML("div.white-block-body > div > div.col-xs-6.left-line.right > div.digit > strong");
+    let disponibleInvertirRobocash = await pageRobocash.innerHTML("div.white-block-body > div > div:nth-child(1) > div.digit.gradient-digit > strong > span > span");
+    let robocash = new Plataforma(totalRobocash, beneficioRobocash, fecha, bonusRobocash,dineroInvertidoRobocash,disponibleInvertirRobocash);
     beneficios.push(robocash);
     insertarRegistros("Robocash",robocash);
 
@@ -55,7 +49,9 @@ async function getBeneficios() {
     let beneficioEsketit = await pageEsketit.innerText("section.section-details.py-5 > div > div > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > div.text-right");
     let totalEsketit = await pageEsketit.innerText("section.section-details.py-5 > div > div > div:nth-child(1) > div > div:nth-child(1) > div.panel-row.mb-3.mt-3 > div.text-right");
     let bonusEsketit = await pageEsketit.innerText("section.section-details.py-5 > div > div > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(4) > div.text-right");
-    let esketit = new Plataforma(totalEsketit, beneficioEsketit, fecha, bonusEsketit);
+    let dineroInvertidoEsketit = await pageEsketit.innerText("section.section-details.py-5 > div > div > div:nth-child(1) > div > div:nth-child(1) > div.panel-row.mb-3.mt-3 > div.text-right");
+    let disponibleInvertirEsketit = await pageEsketit.innerText("section.section-details.py-5 > div > div > div:nth-child(1) > div > div:nth-child(1) > div:nth-child(3) > div.text-right");
+    let esketit = new Plataforma(totalEsketit, beneficioEsketit, fecha, bonusEsketit,dineroInvertidoEsketit,disponibleInvertirEsketit);
     beneficios.push(esketit);
     insertarRegistros("Esketit",esketit);
 
@@ -69,12 +65,11 @@ async function getBeneficios() {
     let beneficioBrickstarter = await pageBrickstarter.innerText("#inmuebles- > div > a > div.property__info.\\|.clearfix.pt-24.ph-24.pb-32 > div:nth-child(9) > h4");
     let totalBrickstarter = await pageBrickstarter.innerText("#inmuebles- > div > a > div.property__info.\\|.clearfix.pt-24.ph-24.pb-32 > div:nth-child(8) > h4");
     let bonusBrickstarter = '15 €';
-    let brickstarter = new Plataforma(totalBrickstarter, beneficioBrickstarter, fecha, bonusBrickstarter);
+    let brickstarter = new Plataforma(totalBrickstarter, beneficioBrickstarter, fecha, bonusBrickstarter,'0.0','0.0');
     beneficios.push(brickstarter);
     insertarRegistros("Brickstarter",brickstarter)
 
     
-
     const pageLendermarket = await browser.newPage();
     await pageLendermarket.goto('https://app.lendermarket.com/es/resumen');
     await pageLendermarket.getByRole('textbox', { name: 'Correo electrónico' }).fill('danielhingar@gmail.com');
@@ -83,7 +78,9 @@ async function getBeneficios() {
     let beneficioLendermarket = await pageLendermarket.innerText("div:nth-child(2) > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > span");
     let totalLendermarket = await pageLendermarket.innerText("div:nth-child(1) > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > span");
     let bonusLendermarket = await pageLendermarket.innerText("div:nth-child(2) > div > table > tbody > tr:nth-child(5) > td:nth-child(2) > span");
-    let lendermarket = new Plataforma(totalLendermarket, beneficioLendermarket, fecha, bonusLendermarket);
+    let dineroInvertidoLendermarket = await pageLendermarket.innerHTML("div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > span");
+    let disponibleInvertirLendermarket = await pageLendermarket.innerHTML("div:nth-child(1) > div > table > tbody > tr:nth-child(3) > td:nth-child(2) > span");
+    let lendermarket = new Plataforma(totalLendermarket, beneficioLendermarket, fecha, bonusLendermarket,dineroInvertidoLendermarket,disponibleInvertirLendermarket);
     beneficios.push(lendermarket);
     insertarRegistros("Lendermarket",lendermarket)
 
@@ -115,11 +112,13 @@ app.listen(PORT, () => {
 });
 
 class Plataforma {
-    constructor(total, beneficioBruto, date, bonus) {
+    constructor(total, beneficioBruto, date, bonus,dineroInvertido,disponibleInvertir) {
         this.total = convertirPrecioANumero(total);
         this.beneficioBruto = convertirPrecioANumero(beneficioBruto);
         this.beneficioNeto = convertirPrecioANumero((this.beneficioBruto - (this.beneficioBruto * 0.19)).toFixed(2));
         this.bonus = convertirPrecioANumero(bonus);
+        this.dineroInvertido = convertirPrecioANumero(dineroInvertido);
+        this.disponibleInvertir = convertirPrecioANumero(disponibleInvertir);
         this.date = date;
     }
 
