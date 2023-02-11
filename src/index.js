@@ -1,11 +1,6 @@
-const express = require('express');
 const { chromium } = require('playwright');
-const xirr = require("xirr");
+var  cron  =  require('node-cron');
 const MongoClient = require('mongodb').MongoClient;
-
-const app = express();
-
-const PORT = process.env.PORT || 3000;
 
 async function getBeneficios() {
     var now = new Date();
@@ -91,26 +86,6 @@ async function getBeneficios() {
 
 };
 
-
-
-app.get("/", async (req, res) => {
-    console.time('Inicio');
-    const beneficios = await getBeneficios();
-    console.timeEnd('Inicio');
-    res.send(beneficios);
-});
-
-// app.get("/xirr", async (req, res) => {
-//     console.time('Inicio xirr');
-//     const xirr = await getXirr();
-//     console.timeEnd('Inicio xirr');
-//     res.send(xirr);
-// });
-
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`)
-});
-
 class Plataforma {
     constructor(total, beneficioBruto, date, bonus,dineroInvertido,disponibleInvertir) {
         this.total = convertirPrecioANumero(total);
@@ -133,72 +108,6 @@ function convertirPrecioANumero(param) {
     return precio;
 }
 
-
-// async function getXirr() {
-//     const jsonData = [
-//         {
-//             when: new Date(2022,11,28),
-//             amount: -10
-//         },
-//         // {
-//         //     when: new Date(2022,9,7),
-//         //     amount: -10
-//         // },
-//         // {
-//         //     when: new Date(2022,10,4),
-//         //     amount: -10
-//         // },
-//         // {
-//         //     when: new Date(2022,10,1),
-//         //     amount: 30.09
-//         // },
-//         // {
-//         //     when: new Date(2022,10,20),
-//         //     amount: 30.22
-//         // },
-    
-//         // {
-//         //     when: new Date(2022,11,1),
-//         //     amount: 30.32
-//         // },
-//         // {
-//         //     when: new Date(2022,11,8),
-//         //     amount: 30.42
-//         // },
-//         // {
-//         //     when: new Date(2022,11,23),
-//         //     amount: 30.52
-//         // },
-//         // {
-//         //     when: new Date(2022,12,1),
-//         //     amount: 30.62
-//         // },
-//         // {
-//         //     when: new Date(2022,12,8),
-//         //     amount: 30.09
-//         // },
-//         // {
-//         //     when: new Date(2023,1,1),
-//         //     amount: 30.71
-//         // },
-//         // {
-//         //     when: new Date(2023,1,12),
-//         //     amount: 30.85
-//         // },
-//         {
-//             when: new Date(2023,1,21),
-//             amount: 10.33
-//         }
-//     ]
-//     ;
-    
-//     // Calcular xirr utilizando los datos del json
-//     const xirrValue = xirr(jsonData);
-//     console.log(xirrValue); 
-
-    
-// }
-
 function insertarRegistros(collectionName,object) {
 const url = "mongodb+srv://danhingar:PEople3012@platforms.tvx1l8a.mongodb.net/?retryWrites=true&w=majority";
 
@@ -218,3 +127,9 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
 });
 }
+
+cron.schedule('00 13 * * *', async() => {
+    console.log("Entra");
+   await getBeneficios();
+});
+
