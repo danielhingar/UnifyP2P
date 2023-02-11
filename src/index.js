@@ -128,7 +128,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
 });
 }
 
-cron.schedule('00 13 * * *', async() => {
+cron.schedule('05 13 * * *', async() => {
     console.log("Entra");
    await getBeneficios();
 });
