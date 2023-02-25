@@ -7,7 +7,7 @@ const email = process.env.EMAIL;
 const pass = process.env.PASS;
 const mongourl = process.env.MONGOURL;
 
-schedule.scheduleJob('00 38 18 * * *', function(){
+schedule.scheduleJob('00 10 19 * * *', function(){
     console.log('EJECUTA SCHEDULED');
     getBeneficios();
     console.log('Finalizado');
