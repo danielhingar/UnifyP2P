@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-var cron = require('node-cron');
+const schedule = require('node-schedule');
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config('./.env');
 
@@ -7,7 +7,13 @@ const email = process.env.EMAIL;
 const pass = process.env.PASS;
 const mongourl = process.env.MONGOURL;
 
-getBeneficios();
+schedule.scheduleJob('00 38 18 * * *', function(){
+    console.log('EJECUTA SCHEDULED');
+    getBeneficios();
+    console.log('Finalizado');
+  });
+
+
 
 async function getBeneficios() {
     var now = new Date();
@@ -82,7 +88,7 @@ async function getBeneficios() {
 
 
     browser.close();
-    console.log('Finalizado');
+    
 };
 
 class Plataforma {
